@@ -1,68 +1,49 @@
 # chatbot
-一个可以使用自己语料进行训练的中文聊天机器人，目前包含seq2seq tf1.x和tf.2x版本，seqGan版本为tf1.x版本，pytorch版本，欢迎大家实践交流。
-# 关于2022年项目更新路线计划
-这本是一个我自己学习NLP练手的项目，随着不断和更新和完善，得到了大家的关注和喜爱。但是我知道现在这个项目工程是比较糟糕的，不管是代码结构还是项目融合上都有问题，而且还存在BUG.
+ChatGPT带火了聊天机器人，主流的趋势都调整到了GPT类模式，本项目也与时俱进，会在近期更新更新GPT类版本。
+这是一个可以使用自己语料进行训练的中文聊天机器人项目，欢迎大家实践交流以及Star、Fork。
+# Seq2Seq版本效果参考（训练进度50%）
+![img_1.png](img_1.png) ![img_2.png](img_2.png)
+# RoadMap:
+V1.1:Update:2023-09-30
 
-因此准备做以下更新计划：
+1)增加MindSpore版本，优先在MindSpore版本上引入GPT模型，RLHF等特性。
 
-1、项目工程重新构建，更加合理，减少冗余的同时保证各个模块的独立性。
+2）整体工程架构分为Seq2Seq和GPT两大分支，继续保持多AI框架版本演进。
 
-2、整改前端页面，增加后端管理页面（这块其实主要是找开源的项目来修改），支持可视化配置。
 
-3、只保留TF2.X版本和pytorch版本，模型上优先是seq2seq、seqGAN，增加BERT模型，并引入大规模分布式训练；在功能上增加FAQ问答机器人。
+V1.2:Update:2024-3-30(Maybe)
 
-4、前两项计划在1月31日（大年夜）之前完成并更新，第三项计划在5月1日前完成并更新，因此如果需要保留现在的版本，可以提前下载到本地。
+1）实现类似mini-GPT4的功能，可以进行图文多模态的对话，主要提升趣味性和丰富性。
 
-# 关于语料的说明
-大家可以使用小黄鸡的预料，地址https://github.com/zhaoyingjun/chatbot/blob/master/chineseChatbotWeb-tf2.0/seq2seqChatbot/train_data/xiaohuangji50w_nofenci.conv
+2）增强分布式集群训练相关能力和RLHF等特性。
 
 # seq2seq版本代码执行顺序
+大家可以使用小黄鸡的语料，下载地址https://github.com/zhaoyingjun/chatbot/blob/master/chineseChatbotWeb-tf2.0/seq2seqChatbot/train_data/xiaohuangji50w_nofenci.conv
 
-1、在下载好代码和语料之后，将语料文件放入data目录下。
+1）、在下载好代码和语料之后，将语料文件放入train_data目录下，超参配置在config/seq2seq.ini文件中配置。。
 
-2、按照 数据预处理器（data_utls.py)-->execute.py(执行器)-->app.py（可视化对话模块）的顺序执行就可以了。
+2）、按照数据预处理器（data_utls.py)-->execute.py(执行器)-->app.py（可视化对话模块）的顺序执行就可以了。
 
-3、超参配置在seq2seq.ini和seq2seq_sever.ini文件中配置。
-
-# seqGAN版本代码执行顺序
-1 、在下载好代码和语料之后，将语料文件放入source_data目录下。
-2、按照 数据预处理器（source_data_utls.py)-->execute.py(执行器)-->app.py（可视化模块）的顺序执行就可以了
-
-# 参考代码和文献
-
-http://blog.topspeedsnail.com/archives/10735/comment-page-1#comment-1161。
-
-http://www.easyapple.net/?p=1384&from=singlemessage&isappinstalled=0。
-
-https://github.com/zpppy/seqGan_chatbot
-
-# 建议环境
-
-ubuntu14.04  
-python3.5  
-TF1.X:
-tensorflow==1.10.1或者tensorflow-gpu==1.10.1  
-flask==0.11.1
+3）、大规模分布式训练版本，参照horovod的启动方式 horovodrun -np n -H host1_ip:port,host2_ip:port,hostn_ip:port python3 excute.py
+# 建议训练环境配置
+ubuntu==18.04  
+python==3.6  
 
 TF2.X:
-tensorflow==2.0.0
+
+tensorflow==2.6.0
+
 flask==0.11.1
+
+horovod==0.24(分布式训练)
 
 pytorch:
-torch==2.0.0
+
+torch==1.11.0
+
 flask==0.11.1
 
-
-# 已更新功能清单:
-
-V1.1:已经增加中文分词，效果是变得更好了。注意在使用分词后，需要增加词典的大小，否则的话会导致词典无法覆盖训练集，导致出现很多的UNK。直接在seq2seq.ini中修改超参数enc_vocab_size和dec_vocab_size的值即可。  
-
-V2.0:增加一个基于SeqGan的版本，以增加训练的效果。  
-
-V3.0：增加TensorFlow2.0版，训练效果见文件夹内图片，训练数据已经准备好，直接执行python3 execute即可进行训练。 PS:预训练好了一个模型，链接:https://pan.baidu.com/s/1zcrBn8dpOhtBZu_T7TOO9w  密码:s7sq，可以下载使用，模型的效果见效果图，在使用预训练模型前需要先执行data_utl.py文件更新字典。 
-
-V4.0:a、seq2seq模型增加pytorch版本，seqGAN模型pytorch版本稍后更新；b、对当前的工程结构进行调整。
-# 版本路线图:
-V4.1:seqGAN模型增加tf2.0和pytorch版本，敬请期待。
-
-
+# 开源交流、联系方式
+微信群：
+![](image.jpg)
+QQ：934389697
